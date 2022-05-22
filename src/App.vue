@@ -12,7 +12,8 @@
     />
   </transition-group>
   <h2>{{ status }}</h2>
-  <button @click="restartGame">Restart Game</button>
+  <button v-if="newPlayer" @click="startGame">Start Game</button>
+  <button v-else @click="restartGame">Restart Game</button>
 </template>
 
 <script>
@@ -28,6 +29,12 @@ export default {
   setup() {
     const cardList = ref([]);
     const useSelection = ref([]);
+    const newPlayer = ref(true);
+    const startGame = () => {
+      newPlayer.value = false;
+
+      restartGame();
+    };
     const status = computed(() => {
       if (remainingPairs.value === 0) {
         return 'Player Wins!';
@@ -76,7 +83,7 @@ export default {
 
       cardList.value.push({
         value: item,
-        visible: false,
+        visible: true,
         variant: 2,
         position: null,
         matched: false,
@@ -141,6 +148,8 @@ export default {
       useSelection,
       status,
       restartGame,
+      startGame,
+      newPlayer,
     };
   },
 };
