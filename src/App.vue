@@ -12,7 +12,7 @@
     />
   </section>
   <h2>{{ status }}</h2>
-  <button @click="shuffleCards">Shuffle Cards</button>
+  <button @click="restartGame">Restart Game</button>
 </template>
 
 <script>
@@ -39,6 +39,14 @@ export default {
       cardList.value = _.shuffle(cardList.value);
     };
 
+    const restartGame = () => {
+      shuffleCards();
+
+      cardList.value = cardList.value.map((card, index) => {
+        return { ...card, matched: false, visible: false, position: index };
+      });
+    };
+
     const remainingPairs = computed(() => {
       const remainingCards = cardList.value.filter(
         (card) => card.matched === false
@@ -51,8 +59,8 @@ export default {
 
     for (let i = 0; i < 16; i++) {
       cardList.value.push({
-        value: i,
-        visible: true,
+        value: 8,
+        visible: false,
         position: i,
         matched: false,
       });
@@ -76,18 +84,12 @@ export default {
           const cardTwo = currentValue[1];
 
           if (cardOne.faceValue === cardTwo.faceValue) {
-            status.value = 'Matched!';
-
             cardList.value[cardOne.position].matched = true;
             cardList.value[cardTwo.position].matched = true;
           } else {
-            status.value = 'Mismatch!';
-
             cardList.value[cardOne.position].visible = false;
             cardList.value[cardTwo.position].visible = false;
           }
-
-          console.log("That's it");
           useSelection.value.length = 0;
         }
       },
@@ -100,6 +102,7 @@ export default {
       useSelection,
       status,
       shuffleCards,
+      restartGame,
     };
   },
 };
