@@ -19,6 +19,7 @@
 import _ from 'lodash';
 import { computed, ref, watch } from 'vue';
 import Card from './components/Card.vue';
+import { launchConfetti } from './utilities/confetti';
 export default {
   name: 'App',
   components: {
@@ -105,6 +106,12 @@ export default {
         useSelection.value[0] = payload;
       }
     };
+
+    watch(remainingPairs, (currentValue) => {
+      if (currentValue === 0) {
+        launchConfetti();
+      }
+    });
 
     watch(
       useSelection,
