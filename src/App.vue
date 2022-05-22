@@ -57,7 +57,16 @@ export default {
       return remainingCards / 2;
     });
 
-    const cardItems = [1, 2, 3, 4, 5, 6, 7, 8];
+    const cardItems = [
+      'apple',
+      'banana',
+      'cherry',
+      'grape',
+      'strawberry',
+      'tomato',
+      'melon',
+      'orange',
+    ];
 
     cardItems.forEach((item) => {
       cardList.value.push({
@@ -134,21 +143,42 @@ export default {
 </script>
 
 <style>
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin-top: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: white;
+  background-color: black;
+  height: 100vh;
+  padding-top: 60px;
 }
 
 .game-board {
   display: grid;
-  grid-template-columns: 100px 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px 100px;
-  grid-column-gap: 30px;
-  grid-row-gap: 30px;
+  grid-template-columns: repeat(4, 120px);
+  grid-template-rows: repeat(4, 120px);
+  grid-column-gap: 24px;
+  grid-row-gap: 24px;
   justify-content: center;
+}
+
+button {
+  width: 120px;
+  height: 40px;
+  background-color: white;
+  border: none;
+  color: purple;
+  cursor: pointer;
 }
 </style>
