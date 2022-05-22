@@ -1,4 +1,5 @@
 <script>
+import { computed } from 'vue';
 export default {
   props: {
     matched: {
@@ -19,6 +20,12 @@ export default {
     },
   },
   setup(props, context) {
+    const flipStyles = computed(() => {
+      if (props.visible) {
+        return 'is-flipped';
+      }
+    });
+
     const selectCard = () => {
       context.emit('select-card', {
         position: props.position,
@@ -28,24 +35,31 @@ export default {
 
     return {
       selectCard,
+      flipStyles,
     };
   },
 };
 </script>
 
 <template>
-  <div class="card" @click="selectCard">
-    <div v-if="visible" class="card-face is-front">
+  <div class="card" :class="flipStyles" @click="selectCard">
+    <div class="card-face is-front">
       {{ value }}
       <div v-if="matched" class="correct">correct!</div>
     </div>
-    <div v-else class="card-face is-back">Back</div>
+    <div class="card-face is-back"></div>
   </div>
 </template>
 
 <style>
 .card {
   position: relative;
+  transition: 0.5s transform ease-in;
+  transform-style: preserve-3d;
+}
+
+.card.is-flipped {
+  transform: rotateY(180deg);
 }
 
 .card-face {
@@ -54,12 +68,14 @@ export default {
   position: absolute;
   border-radius: 7px;
   cursor: pointer;
+  backface-visibility: hidden;
 }
 
 .card-face.is-front {
   background-color: purple;
   color: white;
   font-size: 20px;
+  transform: rotateY(180deg);
 }
 
 .card-face.is-back {
