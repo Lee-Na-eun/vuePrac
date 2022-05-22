@@ -83,7 +83,7 @@ export default {
 
       cardList.value.push({
         value: item,
-        visible: true,
+        visible: false,
         variant: 2,
         position: null,
         matched: false,
